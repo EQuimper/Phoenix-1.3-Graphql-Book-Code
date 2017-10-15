@@ -31,5 +31,6 @@ defmodule PlateSlate.Menu.Item do
     |> cast(attrs, [:name, :description, :price, :added_on, :category_id]) # make sure to pass the :category_id atom here if we want to assoc
     |> validate_required([:name, :price])
     |> foreign_key_constraint(:category)
+    |> unique_constraint(:name)
   end
 end
