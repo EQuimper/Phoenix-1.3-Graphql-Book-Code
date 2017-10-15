@@ -14,4 +14,14 @@ defmodule PlateSlateWeb.Resolvers.Menu do
     {:ok, PlateSlate.Repo.all(query)}
   end
 
+  def create_item(_, %{input: params}, _) do
+    IO.puts "this is the params #{inspect(params)}"
+    case Menu.create_item(params) do
+      {:error, _} ->
+        {:error, "Could not create menu item"}
+      {:ok, _} = success ->
+        success
+    end
+  end
+
 end

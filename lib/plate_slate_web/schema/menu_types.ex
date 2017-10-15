@@ -4,14 +4,16 @@ defmodule PlateSlateWeb.Schema.MenuTypes do
   alias PlateSlateWeb.Resolvers
 
   object :menu_item do
+    interfaces [:search_result]
     field :id, :id
     field :name, :string
     field :description, :string
-    field :price, :float
+    field :price, :decimal
     field :added_on, :date
   end
 
   object :category do
+    interfaces [:search_result]
     field :name, :string
     field :description, :string
     field :items, list_of(:menu_item) do
@@ -19,14 +21,21 @@ defmodule PlateSlateWeb.Schema.MenuTypes do
     end
   end
 
-  union :search_result do
-    types [:menu_item, :category]
+  interface :search_result do
+    field :name, :string
     resolve_type fn
       %PlateSlate.Menu.Item{}, _ ->
         :menu_item
       %PlateSlate.Menu.Category{}, _ ->
         :category
     end
+  end
+
+  input_object :menu_item_input do
+    field :name, non_null(:string)
+    field :description, :string
+    field :price, non_null(:decimal)
+    field :category_id, non_null(:id)
   end
 
   @desc "Filtering options for the menu item list"
