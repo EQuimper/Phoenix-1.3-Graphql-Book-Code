@@ -39,6 +39,19 @@ defmodule PlateSlateWeb.Schema do
     end
   end
 
+  subscription do
+    field :new_order, :order do
+      config fn _args, _info ->
+        {:ok, topic: "*"}
+      end
+
+      resolve fn root, _, _ ->
+        IO.inspect(root)
+        {:ok, root}
+      end
+    end
+  end
+
   scalar :date do
     # parse the value to make it readable for elixir
     parse fn input ->
