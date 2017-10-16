@@ -15,6 +15,9 @@ defmodule PlateSlateWeb.Schema.MenuTypes do
     field :description, :string
     field :price, :decimal
     field :added_on, :date
+    field :category, :category do
+      resolve &Resolvers.Menu.category_for_item/3
+    end
   end
 
   object :category do

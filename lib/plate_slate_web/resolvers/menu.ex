@@ -14,6 +14,14 @@ defmodule PlateSlateWeb.Resolvers.Menu do
     {:ok, PlateSlate.Repo.all(query)}
   end
 
+  def categories(_, _, _) do
+    {:ok, Menu.list_categories()}
+  end
+
+  def category_for_item(item, _, _) do
+    {:ok, PlateSlate.Repo.get(PlateSlate.Menu.Category, item.category_id)}
+  end
+
   def create_item(_, %{input: params}, _) do
     case Menu.create_item(params) do
       {:error, changeset} ->
